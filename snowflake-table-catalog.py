@@ -5,10 +5,10 @@ import pandas as pd
 #import streamlit.components.v1 as components
 st.set_page_config(layout="wide")
 # Initialize connection.
-# Uses st.experimental_singleton to only run once.
+# Uses st.cache_resource to only run once.
 
 
-@st.experimental_singleton
+@st.cache_resource
 def init_connection():
     return snowflake.connector.connect(**st.secrets["snowflake"])
 
@@ -17,9 +17,9 @@ conn = init_connection()
 cur = conn.cursor()
 
 # Perform query.
-# Uses st.experimental_memo to only rerun when the query changes or after 10 min.
+# Uses st.cache_data to only rerun when the query changes or after 10 min.
 
-@st.experimental_memo(ttl=600)
+@st.cache_data(ttl=600)
 def run_query(query):
     with conn.cursor() as cur:
         cur.execute(query)
