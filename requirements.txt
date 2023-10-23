@@ -1,0 +1,5 @@
+snowflake.connector
+pandas 
+streamlit
+requests
+io
